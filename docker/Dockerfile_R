@@ -11,4 +11,4 @@ RUN apt-get update && apt-get install -y \
     libharfbuzz-dev
 
 # RUN R -e "chooseCRANmirror(ind = 48); install.packages(c('withr', 'systemfonts', 'textshaping', 'ragg'))" 
-RUN R -e "chooseCRANmirror(ind = 48); install.packages(c('withr', 'systemfonts', 'textshaping', 'ragg', 'pkgdown', 'devtools', 'optparse'), lib = 'usr/local/lib/R/library'); withr::with_libpaths(new = 'usr/local/lib/R/library/', devtools::install_github('mpc-bioinformatics/CalibraCurve'))" 
+RUN R -e "install.packages(c('withr', 'systemfonts', 'textshaping', 'ragg', 'pkgdown', 'devtools', 'optparse'), lib = 'usr/local/lib/R/library'); withr::with_libpaths(new = 'usr/local/lib/R/library/', devtools::install_github('mpc-bioinformatics/CalibraCurve'))" 
