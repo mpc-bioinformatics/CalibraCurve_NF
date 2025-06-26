@@ -10,12 +10,12 @@ library(CalibraCurve)
 library(optparse)
 
 option_list <- list( 
-  make_option(opt_str = c("--data_path"), 
+  make_option(opt_str = c("--data_folder"), 
               type = "character",
-              help = "A string of the input path for the data."),
+              help = "Folder containing input data."),
   make_option(opt_str = c("--output_path"), 
               type = "character",
-              help = "A string of the input path for the data."),
+              help = "Folder for saving results (plots and tables)."),
   make_option(opt_str = c("--conc_col"), 
               type = "integer",
               #default = 1,
@@ -80,6 +80,10 @@ option_list <- list(
               type = "character",
               default = "Intensity",
               help = "Label of the y-axis"),
+  make_option(opt_str = c("--plot_type"),
+              type = "character",
+              default = "single_plots",
+              help = "Type of plot for calibration curves: single_plots (default), multiplot, or all_in_one."),
   make_option(opt_str = c("--show_regression_info"),
               type = "logical",
               default = FALSE,
@@ -104,29 +108,57 @@ option_list <- list(
               type = "character",
               default = "black",
               help = "Colour for the linear range rectangle in the plot."),
+  make_option(opt_str = c("--multiplot_nrow"), 
+              type = "integer",
+              default = NULL,
+              help = "Number of rows for the multiplot layout."),
+  make_option(opt_str = c("--multiplot_ncol"), 
+              type = "integer",
+              default = NULL,
+              help = "Number of columns for the multiplot layout."),
+  make_option(opt_str = c("--multiplot_scales"), 
+              type = "character",
+              default = "fixed",
+              help = "Scales for the multiplot layout: fixed (default), free, free_x or free_y."),
   make_option(opt_str = c("--RF_colour_threshold"), 
               type = "character",
               default = "orange",
-              help = "Label of the y-axis"),
+              help = "Colour for the threshold lines in the response factor plot."),
   make_option(opt_str = c("--RF_colour_within"), 
               type = "character",
               default = "#00BFC4",
-              help = "Label of the y-axis"),
+              help = "Colour for the data points within the threshold lines in the response factor plot."),
   make_option(opt_str = c("--RF_colour_outside"), 
               type = "character",
               default = "#F8766D",
-              help = "Label of the y-axis")  
+              help = "Colour for the data points outside of the threshold lines in the response factor plot."),  
+  make_option(opt_str = c("--CC_plot_width"), 
+              type = "numeric",
+              default = 10,
+              help = "Width of the calibration curve plot in cm (default is 10)."),
+  make_option(opt_str = c("--CC_plot_height"), 
+              type = "numeric",
+              default = 10,
+              help = "Height of the calibration curve plot in cm (default is 10)."),
+  make_option(opt_str = c("--RF_plot_width"), 
+              type = "numeric",
+              default = 10,
+              help = "Width of the response factor plot in cm (default is 10)."),
+  make_option(opt_str = c("--RF_plot_height"), 
+              type = "numeric",
+              default = 10,
+              help = "Height of the response factor plot in cm (default is 10).")
 )
 
 #print(option_list)
 
 opt <- parse_args(OptionParser(option_list=option_list))
 
-if(is.null(opt$data_path)){
-  message("The data path is missing. Add: --data_path <your/data/path/file.xlsx>")
+if(is.null(opt$data_folder)){
+  message("The data path is missing. Add: --data_folder <your/data/path>")
 }
 if(is.null(opt$output_path)){
-  message("The output path is missing. Add: --output_path <your/output/path/folder>")
+  message("The output path is missing. Add: --output_path <your/output/folder>")
 }
 if(is.null(opt$conc_col)){
   message("Column number of concentration column is missing. Add: --conc_col <number>")
@@ -136,17 +168,25 @@ if(is.null(opt$meas_col)){
 }
 
 if(opt$substance == "_"){
-  dir <- opt$data_path
-  opt$substance <- strsplit(basename(dir), "\\.")[[1]][1]
-  message("Substance name is missing. Using the name of the data folder: ", opt$substance)
+  dir <- opt$data_folder
+  #opt$substance <- strsplit(basename(dir), "\\.")[[1]][1]
+  #message("Substance name is missing. Using the name of the data folder: ", opt$substance)
 }
 if(opt$suffix == "_"){
   opt$suffix <- paste0("_", opt$substance)
   message("Suffix is missing. Using substance name.")
 }
 
+# in MacWorp 0 is used as default for number of multiplot rows and columns
+if(opt$multiplot_nrow == 0){
+  opt$multiplot_nrow <- NULL
+}
+if(opt$multiplot_ncol == 0){
+  opt$multiplot_ncol <- NULL
+}
 
-CalibraCurve(data_path = opt$data_path,
+
+CalibraCurve(data_folder = opt$data_folder,
              output_path = opt$output_path,
              conc_col = opt$conc_col,
              meas_col = opt$meas_col, 
@@ -164,15 +204,23 @@ CalibraCurve(data_path = opt$data_path,
              RfThresU = opt$RfThresU, 
              xlab = opt$xlab,
              ylab = opt$ylab,
+             plot_type = opt$plot_type,
              show_regression_info = opt$show_regression_info,
              show_linear_range = opt$show_linear_range,
              show_data_points = opt$show_data_points,
              point_colour = opt$point_colour,
              curve_colour = opt$curve_colour,
              linear_range_colour = opt$linear_range_colour,
+             multiplot_nrow = opt$multiplot_nrow,
+             multiplot_ncol = opt$multiplot_ncol,
+             multiplot_scales = opt$multiplot_scales,
              RF_colour_threshold = opt$RF_colour_threshold,
              RF_colour_within = opt$RF_colour_within,
-             RF_colour_outside = opt$RF_colour_outside)
+             RF_colour_outside = opt$RF_colour_outside, 
+             CC_plot_width = opt$CC_plot_width,
+             CC_plot_height = opt$CC_plot_height,
+             RF_plot_width = opt$RF_plot_width,
+             RF_plot_height = opt$RF_plot_height)
 
 
 

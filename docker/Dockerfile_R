@@ -10,5 +10,9 @@ RUN apt-get update && apt-get install -y \
     libfribidi-dev  \
     libharfbuzz-dev
 
-# RUN R -e "chooseCRANmirror(ind = 48); install.packages(c('withr', 'systemfonts', 'textshaping', 'ragg'))" 
-RUN R -e "install.packages(c('withr', 'systemfonts', 'textshaping', 'ragg', 'pkgdown', 'devtools', 'optparse'), lib = 'usr/local/lib/R/library'); withr::with_libpaths(new = 'usr/local/lib/R/library/', devtools::install_github('mpc-bioinformatics/CalibraCurve'))" 
+#RUN R -e "available.packages()" 
+
+#RUN R -e "chooseCRANmirror(ind = 39); install.packages(c('devtools', 'withr'), lib = 'usr/local/lib/R/library')" 
+
+RUN R -e "chooseCRANmirror(ind = 39); install.packages(c('withr', 'devtools', 'optparse'), lib = 'usr/local/lib/R/library'); withr::with_libpaths(new = 'usr/local/lib/R/library/', devtools::install_github('mpc-bioinformatics/CalibraCurve', dependencies = TRUE, force = TRUE))" 
+

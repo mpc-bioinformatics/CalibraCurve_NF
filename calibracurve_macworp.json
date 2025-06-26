@@ -1,0 +1,368 @@
+{
+    "engine": "nextflow",
+    "src": {
+        "type": "local",
+        "directory": "/mnt/data/nf-cloud/workflows/CalibraCurve_NF",
+        "script": "main_CalibraCurve.nf"
+    },
+    "engine_parameters": [
+        {
+            "name": "profile",
+            "value": "docker"
+        }
+    ],
+    "parameters": {
+        "dynamic": [
+            {
+                "type": "path",
+                "name": "data_folder",
+                "label": "Data folder",
+                "desc": "Folder containing the data (as .xlsx files).",
+                "selectable_files": false,
+                "selectable_folders": true
+            },
+            {
+                "type": "number",
+                "name": "conc_col",
+                "label": "Concentration column",
+                "desc": "Column number containing the concentration values."
+            },
+            {
+                "type": "number",
+                "name": "meas_col",
+                "label": "Measurement column",
+                "desc": "Column number containing the measurement values (e.g. intensities)."
+            },
+            {
+                "type": "separator",
+                "label": "optional_plotting_settings"
+            },
+            {
+                "type": "value-select",
+                "name": "plot_type",
+                "label": "Plot type",
+                "desc": "Type of plot to generate (single plots, a multiplot or a all-in-one plot).",
+                "options": [
+                    {
+                        "label": "Single plots",
+                        "value": "single_plots"
+                    },
+                    {
+                        "label": "Multiplot",
+                        "value": "multiplot"
+                    },
+                    {
+                        "label": "All-in-one plot",
+                        "value": "all_in_one"
+                    }
+                ],
+                "value": "single_plots"
+            },
+
+            {
+                "type": "text",
+                "name": "xlab",
+                "label": "X-axis label",
+                "desc": "Label for x-axis in calibration and response factor plots.",
+                "value": "Concentration"
+            },
+            {
+                "type": "text",
+                "name": "ylab",
+                "label": "Y-axis label",
+                "desc": "Label for y-axis in calibration.",
+                "value": "Intensity"
+            }, 
+            {
+                "type": "value-select",
+                "name": "show_regression_info",
+                "label": "Show regression info?",
+                "desc": "Show regression information (R2, slope, intercept) in the plot?",
+                "options": [
+                    {
+                        "label": "Yes",
+                        "value": "true"
+                    },
+                    {
+                        "label": "No",
+                        "value": "false"
+                    }
+                ],
+                "value": "false"
+            },
+            {
+                "type": "value-select",
+                "name": "show_linear_range",
+                "label": "Show linear range?",
+                "desc": "Show the linear range of the calibration curve as a rectangle in the plot?",
+                "options": [
+                    {
+                        "label": "Yes",
+                        "value": "true"
+                    },
+                    {
+                        "label": "No",
+                        "value": "false"
+                    }
+                ],
+                "value": "true"
+            },
+            {
+                "type": "value-select",
+                "name": "show_data_points",
+                "label": "Show data points?",
+                "desc": "Show the individual data points (replicates) in the plot?",
+                "options": [
+                    {
+                        "label": "Yes",
+                        "value": "true"
+                    },
+                    {
+                        "label": "No",
+                        "value": "false"
+                    }
+                ],
+                "value": "true"
+            },
+            {
+                "type": "text",
+                "name": "point_colour",
+                "label": "Point colour",
+                "desc": "Colour of data points in the calibration plot.",
+                "value": "black"
+            }, 
+            {
+                "type": "text",
+                "name": "curve_colour",
+                "label": "Curve colour",
+                "desc": "Colour of the calibration curve in the calibration plot.",
+                "value": "red"
+            }, 
+            {
+                "type": "text",
+                "name": "linear_range_colour",
+                "label": "Linear range colour",
+                "desc": "Colour for the linear range rectangle in the calibration plot.",
+                "value": "black"
+            },
+            {
+                "type": "text",
+                "name": "RF_colour_threshold",
+                "label": "Threshold colour (RF-plot)",
+                "desc": "Colour of the threshold lines in the response factor plot.",
+                "value": "orange"
+            }, 
+            {
+                "type": "text",
+                "name": "RF_colour_within",
+                "label": "Within range colour (RF-plot)",
+                "desc": "Colour of the response factor points within the threshold range in the response factor plot.",
+                "value": "#00BFC4"
+            }, 
+            {
+                "type": "text",
+                "name": "RF_colour_outside",
+                "label": "Outside range colour (RF-plot)",
+                "desc": "Colour of the response factor points outside of the threshold range in the response factor plot.",
+                "value": "#F8766D"
+            },
+            {
+                "type": "number",
+                "name": "multiplot_nrow",
+                "label": "Multiplot rows",
+                "desc": "Number of rows for multiplot (0 means it will be chosen automatically).",
+                "value": 0
+            },
+            {
+                "type": "number",
+                "name": "multiplot_ncol",
+                "label": "Multiplot columns",
+                "desc": "Number of rows for multiplot (0 means it will be chosen automatically).",
+                "value": 0
+            },
+            {
+                "type": "value-select",
+                "name": "multiplot_scales",
+                "label": "Scale option for multiplots",
+                "desc": "fixed: all plots have the same scale, free: each plot has its own scale. free_x and free_y allow free scaling for only x or y axes.",
+                "options": [
+                    {
+                        "label": "fixed",
+                        "value": "fixed"
+                    },
+                    {
+                        "label": "free",
+                        "value": "free"
+                    },
+                    {
+                        "label": "free_x",
+                        "value": "free_x"
+                    },
+                    {
+                        "label": "free_y",
+                        "value": "free_y"
+                    }
+                ],
+                "value": "fixed"
+            },
+            {
+                "type": "number",
+                "name": "CC_plot_width",
+                "label": "CalibraCurve plot width",
+                "desc": "Width of CalibraCurve plots in cm. Likely, this has to be increased for multiplots.",
+                "value": 10
+            },
+            {
+                "type": "number",
+                "name": "CC_plot_height",
+                "label": "CalibraCurve plot height",
+                "desc": "Height of CalibraCurve plots in cm. Likely, this has to be increased for multiplots.",
+                "value": 10
+            },
+            {
+                "type": "number",
+                "name": "RF_plot_width",
+                "label": "Response factor plot width",
+                "desc": "Width of resonse factor plots in cm.",
+                "value": 10
+            },
+            {
+                "type": "number",
+                "name": "RF_plot_height",
+                "label": "Response factor plot height",
+                "desc": "Height of resonse factor plots in cm.",
+                "value": 10
+            },
+            {
+                "type": "separator",
+                "label": "optional_algorithm_settings"
+            },
+            {
+                "type": "number",
+                "name": "min_replicates",
+                "label": "Minimum replicates",
+                "desc": "Minimum number of replicates required for a concentration level to be included in the calibration curve.",
+                "value": 3
+            },
+            {
+                "type": "number",
+                "name": "cv_thres",
+                "label": "CV threshold",
+                "desc": "Threshold for CV per concentration level in percent.",
+                "value": 20
+            },
+            {
+                "type": "value-select",
+                "name": "calcContinuousPrelimRanges",
+                "label": "Calculate Continous Preliminary Ranges?",
+                "desc": "Yes: the longest continuous range is selected. No: gaps with CVs larger than the threshold may be included.",
+                "options": [
+                    {
+                        "label": "Yes",
+                        "value": "true"
+                    },
+                    {
+                        "label": "No",
+                        "value": "false"
+                    }
+                ],
+                "value": "true"
+            },
+            {
+                "type": "value-select",
+                "name": "weightingMethod",
+                "label": "Weighting method",
+                "desc": "Method for weighting (reduces influence of large concentration levels).",
+                "options": [
+                    {
+                        "label": "1/x",
+                        "value": "1/x"
+                    },
+                    {
+                        "label": "1/x^2",
+                        "value": "1/x^2"
+                    },
+                    {
+                        "label": "None",
+                        "value": "None"
+                    }
+                ],
+                "value": "1/x^2"
+            },
+            {
+                "type": "value-select",
+                "name": "centralTendencyMeasure",
+                "label": "Central Tendency Measure",
+                "desc": "Method for calculating average percent bias.",
+                "options": [
+                    {
+                        "label": "mean",
+                        "value": "mean"
+                    },
+                    {
+                        "label": "median",
+                        "value": "median"
+                    }
+                ],
+                "value": "mean"
+            },
+            {
+                "type": "number",
+                "name": "perBiasThres",
+                "label": "Percentage bias threshold",
+                "desc": "Threshold for average percent bias in percent.",
+                "value": 20
+            },
+            {
+                "type": "value-select",
+                "name": "considerPerBiasCV",
+                "label": "Consider Percentage Bias CV?",
+                "desc": "If yes, CV is considered for the elimination of the concentration level. CV will only be considered if the difference in   percent bias values is lower than perBiasDistThres.",
+                "options": [
+                    {
+                        "label": "Yes",
+                        "value": "true"
+                    },
+                    {
+                        "label": "No",
+                        "value": "false"
+                    }
+                ],
+                "value": "true"
+            },
+            {
+                "type": "number",
+                "name": "perBiasDistThres",
+                "label": "Percentage bias distance threshold",
+                "desc": "Threshold for the difference in average percent bias in percent.",
+                "value": 20
+            },
+            {
+                "type": "number",
+                "name": "RfThresL",
+                "label": "Lower RF threshold",
+                "desc": "Lower threshold for response factor in percent.",
+                "value": 80
+            },
+            {
+                "type": "number",
+                "name": "RfThresU",
+                "label": "Upper RF threshold",
+                "desc": "Upper threshold for response factor in percent.",
+                "value": 120
+            }
+        ],
+        "static": [
+            {
+                "type": "path",
+                "name": "output_path",
+                "label": "",
+                "desc": "",
+                "selectable_files": false,
+                "selectable_folders": true,
+                "value": "",
+                "is_relative": true
+            }
+        ]
+    }
+}
