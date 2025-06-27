@@ -1,0 +1,53 @@
+{
+    "engine": "nextflow",
+    "src": {
+        "type": "local",
+        "directory": "/mnt/data2/workflows/CalibraCurve_NF",
+        "script": "main_prediction.nf"
+    },
+    "engine_parameters": [
+        {
+            "name": "profile",
+            "value": "docker"
+        }
+    ],
+    "parameters": {
+        "dynamic": [
+            {
+                "type": "path",
+                "name": "CC_RES",
+                "label": "CalibraCurve result file",
+                "desc": "result file from CalibraCurve (.rds file).",
+                "selectable_files": true,
+                "selectable_folders": false
+            },
+            {
+                "type": "path",
+                "name": "newdata",
+                "label": "New data",
+                "desc": "File containing measured intensities for prediction (.xlsx).",
+                "selectable_files": true,
+                "selectable_folders": false
+            },
+            {
+                "type": "number",
+                "name": "intensity_col",
+                "label": "Intensity column",
+                "desc": "Column number containing the measured intensities in the new data file.",
+                "value": 1
+            }
+        ],
+        "static": [
+            {
+                "type": "path",
+                "name": "output_path",
+                "label": "",
+                "desc": "",
+                "selectable_files": false,
+                "selectable_folders": true,
+                "value": "",
+                "is_relative": true
+            }
+        ]
+    }
+}

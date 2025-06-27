@@ -1,8 +1,5 @@
 #!/usr/bin/env Rscript
 
-# first install packages affy, matrixStats and vsn
-#install.packages("../ProtStatsWF", repos = NULL, type="source")
-
 ### specify paths to package library, otherwise the package will not be found
 .libPaths("/home/ubuntu/R/x86_64-pc-linux-gnu-library/4.5")
 
@@ -186,7 +183,7 @@ if(opt$multiplot_ncol == 0){
 }
 
 
-CalibraCurve(data_folder = opt$data_folder,
+CalibraCurve::CalibraCurve(data_folder = opt$data_folder,
              output_path = opt$output_path,
              conc_col = opt$conc_col,
              meas_col = opt$meas_col, 
