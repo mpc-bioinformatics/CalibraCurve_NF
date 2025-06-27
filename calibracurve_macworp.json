@@ -2,7 +2,7 @@
     "engine": "nextflow",
     "src": {
         "type": "local",
-        "directory": "/mnt/data/nf-cloud/workflows/CalibraCurve_NF",
+        "directory": "/mnt/data2/workflows/CalibraCurve_NF",
         "script": "main_CalibraCurve.nf"
     },
     "engine_parameters": [

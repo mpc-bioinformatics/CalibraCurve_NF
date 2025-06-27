@@ -38,7 +38,7 @@ process Rscript {
   )
 
   input:
-    val data_path
+    val data_folder
     val output_path
     val conc_col
     val meas_col
@@ -72,12 +72,12 @@ process Rscript {
     path("*.xlsx")
 
   """
-  Run_CalibraCurve.R --data_path ${data_path} --output_path "." --conc_col ${conc_col} --meas_col ${meas_col} --substance ${substance} --suffix ${suffix} --min_replicates ${min_replicates} --cv_thres ${cv_thres} --calcContinuousPrelimRanges ${calcContinuousPrelimRanges} --weightingMethod ${weightingMethod} --centralTendencyMeasure ${centralTendencyMeasure} --perBiasThres ${perBiasThres} --considerPerBiasCV ${considerPerBiasCV} --perBiasDistThres ${perBiasDistThres} --RfThresL ${RfThresL} --RfThresU ${RfThresU} --xlab "${xlab}" --ylab "${ylab}" --show_regression_info ${show_regression_info} --show_linear_range ${show_linear_range} --show_data_points ${show_data_points} --point_colour "${point_colour}" --curve_colour "${curve_colour}" --linear_range_colour "${linear_range_colour}" --RF_colour_threshold "${RF_colour_threshold}" --RF_colour_within "${RF_colour_within}" --RF_colour_outside "${RF_colour_outside}"
+  Run_CalibraCurve.R --data_folder ${data_folder} --output_path "." --conc_col ${conc_col} --meas_col ${meas_col} --substance ${substance} --suffix ${suffix} --min_replicates ${min_replicates} --cv_thres ${cv_thres} --calcContinuousPrelimRanges ${calcContinuousPrelimRanges} --weightingMethod ${weightingMethod} --centralTendencyMeasure ${centralTendencyMeasure} --perBiasThres ${perBiasThres} --considerPerBiasCV ${considerPerBiasCV} --perBiasDistThres ${perBiasDistThres} --RfThresL ${RfThresL} --RfThresU ${RfThresU} --xlab "${xlab}" --ylab "${ylab}" --show_regression_info ${show_regression_info} --show_linear_range ${show_linear_range} --show_data_points ${show_data_points} --point_colour "${point_colour}" --curve_colour "${curve_colour}" --linear_range_colour "${linear_range_colour}" --RF_colour_threshold "${RF_colour_threshold}" --RF_colour_within "${RF_colour_within}" --RF_colour_outside "${RF_colour_outside}"
   """
 }
 
 workflow {
-  Rscript(params.data_path, params.output_path, params.conc_col, params.meas_col, 
+  Rscript(params.data_folder, params.output_folder, params.conc_col, params.meas_col, 
           params.substance, params.suffix,
           params.min_replicates, params.cv_thres, params.calcContinuousPrelimRanges, 
           params.weightingMethod, params.centralTendencyMeasure, params.perBiasThres, 
