@@ -239,14 +239,14 @@
             },
             {
                 "type": "number",
-                "name": "min_replicates",
+                "name": "minReplicates",
                 "label": "Minimum replicates",
                 "desc": "Minimum number of replicates required for a concentration level to be included in the calibration curve.",
                 "value": 3
             },
             {
                 "type": "number",
-                "name": "cv_thres",
+                "name": "cvThres",
                 "label": "CV threshold",
                 "desc": "Threshold for CV per concentration level in percent.",
                 "value": 20

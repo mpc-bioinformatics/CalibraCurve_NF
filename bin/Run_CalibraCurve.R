@@ -29,11 +29,11 @@ option_list <- list(
               type = "character",
               default = "",
               help = ""),
-  make_option(opt_str = c("--min_replicates"),
+  make_option(opt_str = c("--minReplicates"),
               type = "integer",
               default = 3,
               help = "Minimum number of replicates for a concentration level to be included in the calibration curve. Default is 3."),
-  make_option(opt_str = c("--cv_thres"),
+  make_option(opt_str = c("--cvThres"),
               type = "numeric",
               default = 20,
               help = "Threshold for CV per concentration level in percent (default is 20)."),
@@ -107,11 +107,11 @@ option_list <- list(
               help = "Colour for the linear range rectangle in the plot."),
   make_option(opt_str = c("--multiplot_nrow"), 
               type = "integer",
-              default = NULL,
+              default = 0,
               help = "Number of rows for the multiplot layout."),
   make_option(opt_str = c("--multiplot_ncol"), 
               type = "integer",
-              default = NULL,
+              default = 0,
               help = "Number of columns for the multiplot layout."),
   make_option(opt_str = c("--multiplot_scales"), 
               type = "character",
@@ -183,41 +183,61 @@ if(opt$multiplot_ncol == 0){
 }
 
 
-CalibraCurve::CalibraCurve(data_folder = opt$data_folder,
-             output_path = opt$output_path,
-             conc_col = opt$conc_col,
-             meas_col = opt$meas_col, 
-             substance = opt$substance,
-             suffix = opt$suffix,
-             min_replicates = opt$min_replicates,
-             cv_thres = opt$cv_thres,
-             calcContinuousPrelimRanges = opt$calcContinuousPrelimRanges,
-             weightingMethod = opt$weightingMethod,
-             centralTendencyMeasure = opt$centralTendencyMeasure,
-             perBiasThres = opt$perBiasThres,
-             considerPerBiasCV = opt$considerPerBiasCV,
-             perBiasDistThres = opt$perBiasDistThres,
-             RfThresL = opt$RfThresL,
-             RfThresU = opt$RfThresU, 
-             xlab = opt$xlab,
-             ylab = opt$ylab,
-             plot_type = opt$plot_type,
-             show_regression_info = opt$show_regression_info,
-             show_linear_range = opt$show_linear_range,
-             show_data_points = opt$show_data_points,
-             point_colour = opt$point_colour,
-             curve_colour = opt$curve_colour,
-             linear_range_colour = opt$linear_range_colour,
-             multiplot_nrow = opt$multiplot_nrow,
-             multiplot_ncol = opt$multiplot_ncol,
-             multiplot_scales = opt$multiplot_scales,
-             RF_colour_threshold = opt$RF_colour_threshold,
-             RF_colour_within = opt$RF_colour_within,
-             RF_colour_outside = opt$RF_colour_outside, 
-             CC_plot_width = opt$CC_plot_width,
-             CC_plot_height = opt$CC_plot_height,
-             RF_plot_width = opt$RF_plot_width,
-             RF_plot_height = opt$RF_plot_height)
+D_list <- CalibraCurve::readMultipleTables(dataFolder = opt$data_folder, 
+              fileType = "xlsx", 
+              concCol = opt$conc_col, 
+              measCol = opt$meas_col, 
+              naStrings = c("NA", "NaN", "Filtered", "#NV"), 
+              sheet = 1)
+
+
+CalibraCurve::CalibraCurve(D_list = D_list,
+              output_path = opt$output_path,
+              substance = opt$substance,
+              minReplicates = opt$minReplicates,
+              cvThres = opt$cvThres,
+              calcContinuousPrelimRanges = opt$calcContinuousPrelimRanges,
+              weightingMethod = opt$weightingMethod,
+              centralTendencyMeasure = opt$centralTendencyMeasure,
+              perBiasThres = opt$perBiasThres,
+              considerPerBiasCV = opt$considerPerBiasCV,
+              perBiasDistThres = opt$perBiasDistThres,
+              RfThresL = opt$RfThresL,
+              RfThresU = opt$RfThresU, 
+              plot_type = opt$plot_type,
+              RF_colour_threshold = opt$RF_colour_threshold,
+              RF_colour_within = opt$RF_colour_within,
+              RF_colour_outside = opt$RF_colour_outside, 
+              device = "png",
+              CC_plot_width = opt$CC_plot_width,
+              CC_plot_height = opt$CC_plot_height,
+              RF_plot_width = opt$RF_plot_width,
+              RF_plot_height = opt$RF_plot_height, 
+              plot_dpi = 300, 
+              verbose = FALSE,
+              xlab = opt$xlab,
+              ylab = opt$ylab,
+              show_regression_info = opt$show_regression_info,
+              show_linear_range = opt$show_linear_range,
+              show_data_points = opt$show_data_points,
+              point_colour = opt$point_colour,
+              curve_colour = opt$curve_colour,
+              linear_range_colour = opt$linear_range_colour,
+              multiplot_nrow = opt$multiplot_nrow,
+              multiplot_ncol = opt$multiplot_ncol,
+              multiplot_scales = opt$multiplot_scales)
+              
+
+
+             
+
+
+
+
+
+
+
+
 
 
 

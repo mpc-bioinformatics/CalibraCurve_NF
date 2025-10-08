@@ -6,8 +6,8 @@ params.conc_col = 1
 params.meas_col = 2
 params.substance = "_"
 params.suffix = "_"
-params.min_replicates = 3
-params.cv_thres = 20
+params.minReplicates = 3
+params.cvThres = 20
 params.calcContinuousPrelimRanges = true
 params.weightingMethod = "1/x^2"
 params.centralTendencyMeasure = "mean"
@@ -52,8 +52,8 @@ process Rscript {
     val meas_col
     val substance
     val suffix
-    val min_replicates
-    val cv_thres
+    val minReplicates
+    val cvThres
     val calcContinuousPrelimRanges
     val weightingMethod
     val centralTendencyMeasure
@@ -87,15 +87,16 @@ process Rscript {
     path("*.rds")
     path("*.xlsx")
 
+  script:
   """
-  Run_CalibraCurve.R --data_folder ${data_folder} --output_path "." --conc_col ${conc_col} --meas_col ${meas_col} --substance ${substance} --suffix ${suffix} --min_replicates ${min_replicates} --cv_thres ${cv_thres} --calcContinuousPrelimRanges ${calcContinuousPrelimRanges} --weightingMethod ${weightingMethod} --centralTendencyMeasure ${centralTendencyMeasure} --perBiasThres ${perBiasThres} --considerPerBiasCV ${considerPerBiasCV} --perBiasDistThres ${perBiasDistThres} --RfThresL ${RfThresL} --RfThresU ${RfThresU} --xlab "${xlab}" --ylab "${ylab}" --plot_type "${plot_type}" --show_regression_info ${show_regression_info} --show_linear_range ${show_linear_range} --show_data_points ${show_data_points} --point_colour "${point_colour}" --curve_colour "${curve_colour}" --linear_range_colour "${linear_range_colour}" --multiplot_nrow ${multiplot_nrow} --multiplot_ncol ${multiplot_ncol} --multiplot_scales "${multiplot_scales}" --RF_colour_threshold "${RF_colour_threshold}" --RF_colour_within "${RF_colour_within}" --RF_colour_outside "${RF_colour_outside}" --CC_plot_width ${CC_plot_width} --CC_plot_height ${CC_plot_height} --RF_plot_width ${RF_plot_width} --RF_plot_height ${RF_plot_height} 
+  Run_CalibraCurve.R --data_folder ${data_folder} --output_path "." --conc_col ${conc_col} --meas_col ${meas_col} --substance ${substance} --suffix ${suffix} --minReplicates ${minReplicates} --cvThres ${cvThres} --calcContinuousPrelimRanges ${calcContinuousPrelimRanges} --weightingMethod ${weightingMethod} --centralTendencyMeasure ${centralTendencyMeasure} --perBiasThres ${perBiasThres} --considerPerBiasCV ${considerPerBiasCV} --perBiasDistThres ${perBiasDistThres} --RfThresL ${RfThresL} --RfThresU ${RfThresU} --xlab "${xlab}" --ylab "${ylab}" --plot_type "${plot_type}" --show_regression_info ${show_regression_info} --show_linear_range ${show_linear_range} --show_data_points ${show_data_points} --point_colour "${point_colour}" --curve_colour "${curve_colour}" --linear_range_colour "${linear_range_colour}" --multiplot_nrow ${multiplot_nrow} --multiplot_ncol ${multiplot_ncol} --multiplot_scales "${multiplot_scales}" --RF_colour_threshold "${RF_colour_threshold}" --RF_colour_within "${RF_colour_within}" --RF_colour_outside "${RF_colour_outside}" --CC_plot_width ${CC_plot_width} --CC_plot_height ${CC_plot_height} --RF_plot_width ${RF_plot_width} --RF_plot_height ${RF_plot_height} 
   """
 }
 
 workflow {
   Rscript(params.data_folder, params.output_path, params.conc_col, params.meas_col, 
           params.substance, params.suffix,
-          params.min_replicates, params.cv_thres, params.calcContinuousPrelimRanges, 
+          params.minReplicates, params.cvThres, params.calcContinuousPrelimRanges, 
           params.weightingMethod, params.centralTendencyMeasure, params.perBiasThres, 
           params.considerPerBiasCV, params.perBiasDistThres, params.RfThresL, 
           params.RfThresU,  params.xlab, params.ylab, params.plot_type,
