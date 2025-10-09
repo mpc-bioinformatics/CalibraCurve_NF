@@ -39,12 +39,11 @@ if(is.null(opt$newdata)){
 }
 
 CC_res <- readRDS(opt$CC_RES)
-print(CC_res)
 
 newdata <- openxlsx::read.xlsx(opt$newdata, sheet = 1)
 
 
-prediction <- CalibraCurve::predictConcentration(CC_res = list(RES = list(CC_res)), 
+prediction <- CalibraCurve::predictConcentration(CC_res = CC_res, 
                                   newdata = newdata[, opt$intensity_col])
 
 openxlsx::write.xlsx(prediction, 

@@ -191,7 +191,7 @@ D_list <- CalibraCurve::readMultipleTables(dataFolder = opt$data_folder,
               sheet = 1)
 
 
-CalibraCurve::CalibraCurve(D_list = D_list,
+RES <- CalibraCurve::CalibraCurve(D_list = D_list,
               output_path = opt$output_path,
               substance = opt$substance,
               minReplicates = opt$minReplicates,
@@ -227,6 +227,8 @@ CalibraCurve::CalibraCurve(D_list = D_list,
               multiplot_ncol = opt$multiplot_ncol,
               multiplot_scales = opt$multiplot_scales)
               
+
+
 
 
              
