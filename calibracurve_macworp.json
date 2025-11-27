@@ -210,7 +210,7 @@
                 "name": "CC_plot_width",
                 "label": "CalibraCurve plot width",
                 "desc": "Width of CalibraCurve plots in cm. Likely, this has to be increased for multiplots.",
-                "value": 10
+                "value": 15
             },
             {
                 "type": "number",
