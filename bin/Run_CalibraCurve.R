@@ -171,7 +171,7 @@ if(opt$substance == "_"){
 }
 if(opt$suffix == "_"){
   opt$suffix <- paste0("_", opt$substance)
-  message("Suffix is missing. Using substance name.")
+  #message("Suffix is missing. Using substance name.")
 }
 
 # in MacWorp 0 is used as default for number of multiplot rows and columns
